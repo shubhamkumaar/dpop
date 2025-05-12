@@ -1,1 +1,56 @@
 .env
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+.env/
+.env.*  # for env-specific files
+
+# IDE/Editor configs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Database files
+*.sqlite3
+*.db
+
+# Python test cache
+.pytest_cache/
+.tox/
+.coverage
+htmlcov/
+
+# Uvicorn reload cache (sometimes generated)
+*.pid
+
+# FastAPI static/media uploads
+/static/*
+!/static/.gitkeep
+/media/*
+!/media/.gitkeep
+
+# Dist/Packaging
+build/
+dist/
+*.egg-info/
+
+# Jupyter Notebooks (if used)
+*.ipynb_checkpoints
+
+# Migrations (if using Alembic, adjust accordingly)
+alembic/versions/
+
+# Local Docker or Kubernetes configs
+docker-compose.override.yml
+*.local.yaml
+
