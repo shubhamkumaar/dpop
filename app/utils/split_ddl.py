@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
-def generate():
+def split_ddl(ddl_statement):
     client = genai.Client(
         api_key=api_key,
     )
@@ -17,29 +17,7 @@ def generate():
         types.Content(
             role="user",
             parts=[
-                types.Part.from_text(text="""CREATE TABLE users (
-    user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(150) UNIQUE NOT NULL
-);
-
-CREATE TABLE order_items (
-    item_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    order_id UUID NOT NULL,
-    product_name VARCHAR(100),
-    quantity INT CHECK (quantity > 0),
-    price DECIMAL(10, 2),
-    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
-);
-
-
-CREATE TABLE orders (
-    order_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL,
-    order_date DATE DEFAULT CURRENT_DATE,
-    amount DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
+                types.Part.from_text(text=f"""{ddl_statement}
 
 I have shared the DDL of a database, and split all the tables into an array format
 - an array of strings
@@ -54,13 +32,13 @@ Rules to generate
 - No need for the verification code.
 
 Follow this format of the response:-
-{
+{{
   \"ddl_statement\": [
     \"CREATE TABLE users ( user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),  name VARCHAR(100) NOT NULL,   email VARCHAR(150) UNIQUE NOT NULL);\",
     \"CREATE TABLE orders ( order_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),  user_id UUID NOT NULL,  order_date DATE DEFAULT CURRENT_DATE,   amount DECIMAL(10, 2) NOT NULL,  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE);\",
     \"CREATE TABLE order_items ( item_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),  order_id UUID NOT NULL,   product_name VARCHAR(100), quantity INT CHECK (quantity > 0),    price DECIMAL(10, 2), FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE);\"
   ]
-}"""),
+}}"""),
             ],
         ),
         
@@ -74,11 +52,8 @@ Follow this format of the response:-
         contents=contents,
         config=generate_content_config,
     ):
-        print(chunk.text, end="")
+        # print(chunk.text, end="")
         if chunk.text:
             response += chunk.text
-    with open("test.json", "w") as f:
+    with open("split_ddl.json", "w") as f:
         f.write(response)
-
-if __name__ == "__main__":
-    generate()

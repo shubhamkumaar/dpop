@@ -1,0 +1,5 @@
+{
+  "ddl_statement": [
+    "CREATE TABLE media_library ( media_id UUID PRIMARY KEY DEFAULT gen_random_uuid(), name VARCHAR(255) NOT NULL, file_url TEXT, cover TEXT, uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"
+  ]
+}
