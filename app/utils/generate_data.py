@@ -1,18 +1,12 @@
-# To run this code you need to install the following dependencies:
-# pip install google-genai
-
 import base64
 import os
 from google import genai
 from google.genai import types
-from dotenv import load_dotenv
 
-load_dotenv()
-api_key = os.getenv("GEMINI_API_KEY")
-
-def generate_script(ddl_statement,rows_per_table=50):
+def generate_script(ddl_statement,rows_per_table=30):
+    print("Generating script for DDL statement...")
     client = genai.Client(
-        api_key=api_key,
+        api_key=os.getenv("GEMINI_API_KEY"),
     )
 
     model = "gemini-2.0-flash-lite"
@@ -26,7 +20,7 @@ Rules to generate data:-
 - For the reference key query the data from the table
 - If the data is image mark file as  #img
 - if data is pdf mark as #pdf
-
+- if there is password in the data mark it as #password
 
 Response rules:-
 - Don't include greetings
