@@ -21,3 +21,6 @@
 ### SQL script file upload
 - [Article](https://www.digitalocean.com/resources/articles/amazon-s3-alternatives)
 - [BackBlaze](https://www.backblaze.com/cloud-storage)
+
+### code editor
+- [textarea code editor](https://uiwjs.github.io/react-textarea-code-editor/)

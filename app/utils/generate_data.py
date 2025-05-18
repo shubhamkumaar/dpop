@@ -2,11 +2,15 @@ import base64
 import os
 from google import genai
 from google.genai import types
+from dotenv import load_dotenv
+
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
 
 def generate_script(ddl_statement,rows_per_table=30):
     print("Generating script for DDL statement...")
     client = genai.Client(
-        api_key=os.getenv("GEMINI_API_KEY"),
+        api_key=api_key,
     )
 
     model = "gemini-2.0-flash-lite"

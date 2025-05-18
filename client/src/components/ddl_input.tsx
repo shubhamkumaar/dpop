@@ -3,6 +3,8 @@ import { useState } from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import rehypePrism from "rehype-prism-plus";
 import axios from "axios";
+
+const api_url = import.meta.env.VITE_API_URL;
 export default function DDLInput() {
   const [ddl, setDDL] = useState("");
   const [code, setCode] = useState(
@@ -23,7 +25,7 @@ export default function DDLInput() {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:8000/api/",null,{
+      const response = await axios.post(api_url,null,{
         params: {
           ddl: ddl,
           rows_per_table: 30

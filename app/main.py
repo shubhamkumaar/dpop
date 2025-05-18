@@ -46,27 +46,6 @@ def read_root(ddl: str = None, rows_per_table: int = 30):
     #     cover TEXT,            -- Image (cover) URL
     #     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     # );"""
-    t = """
-        CREATE TABLE users (
-        user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        name VARCHAR(100) NOT NULL,
-        email VARCHAR(150) UNIQUE NOT NULL
-    );
-    CREATE TABLE order_items (
-        item_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        order_id UUID NOT NULL,
-        product_name VARCHAR(100),
-        quantity INT CHECK (quantity > 0),
-        price DECIMAL(10, 2),
-        FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
-    );
-    CREATE TABLE orders (
-        order_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        user_id UUID NOT NULL,
-        order_date DATE DEFAULT CURRENT_DATE,
-        amount DECIMAL(10, 2) NOT NULL,
-        FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-    );"""
     
     # Split the DDL into individual statements
     split_ddl(ddl)
@@ -127,7 +106,7 @@ def read_root(ddl: str = None, rows_per_table: int = 30):
         img_index += 1
         
     # Write the SQL scripts to a file   
-    with open("sql_scripts1.sql", "w") as f:
-        f.write(sql_scripts)
+    # with open("sql_scripts.sql", "w") as f:
+    #     f.write(sql_scripts)
     return {"message": sql_scripts}
     
