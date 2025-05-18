@@ -3,7 +3,11 @@ import rehypePrism from "rehype-prism-plus";
 import { Button } from "./ui/button";
 
 export default function Output ({ code, setCode }:{ code: string; setCode: (value: string) => void; }) {
+  if(!code) {
+    return null;
+  }
   return (
+    
     <div className="mt-8 bg-gray-800 border border-gray-700 rounded-xl p-6">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4">
         Generated SQL Script
