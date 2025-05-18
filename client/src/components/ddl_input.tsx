@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ArrowRightCircle } from "lucide-react";
 import axios from "axios";
 import Output from "./output";
-
+import Loader from "./loader";
 const api_url = import.meta.env.VITE_API_URL;
 export default function DDLInput() {
   const [ddl, setDDL] = useState("");
@@ -40,6 +40,7 @@ export default function DDLInput() {
     <div className="p-6 max-w-3xl mx-auto bg-gray-900 text-gray-200 rounded-xl shadow-lg">
       <div className="space-y-6">
         {/* Rows Per Table */}
+        <Loader open={loading} />
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
           <label
             htmlFor="rows-input"
