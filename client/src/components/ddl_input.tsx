@@ -1,32 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import CodeEditor from "@uiw/react-textarea-code-editor";
-import rehypePrism from "rehype-prism-plus";
 import { ArrowRightCircle } from "lucide-react";
 import axios from "axios";
+import Output from "./output";
 
 const api_url = import.meta.env.VITE_API_URL;
 export default function DDLInput() {
   const [ddl, setDDL] = useState("");
   const [rows_per_table, setRowsPerTable] = useState(30);
-  const [code, setCode] = useState(
-    `CREATE TABLE order_items (
-        item_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        order_id UUID NOT NULL,
-        product_name VARCHAR(100),
-        quantity INT CHECK (quantity > 0),
-        price DECIMAL(10, 2),
-        FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
-    );`
-  );
-
+  const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
   const handleGenerateScript = async () => {
-    console.log("Button clicked");
     if (!ddl) {
       alert("Please enter DDL statements.");
       return;
     }
+    if (rows_per_table < 1 || rows_per_table > 50) {
+      alert("Rows per table must be between 1 and 50.");
+      return;
+    }
     try {
+      setLoading(true);
       const response = await axios.post(api_url, null, {
         params: {
           ddl: ddl,
@@ -37,6 +31,8 @@ export default function DDLInput() {
       console.log(response.data);
     } catch (error) {
       console.error("Error generating script:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,9 +52,13 @@ export default function DDLInput() {
             id="rows-input"
             className="bg-gray-800 border border-gray-700 rounded-md p-2 w-full sm:w-64 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus-visible:outline-blue-400"
             value={rows_per_table}
-            onChange={(e) => setRowsPerTable(Number(e.target.value))}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              if (value <= 50) setRowsPerTable(value);
+            }}
             placeholder="Enter number of rows..."
             min={1}
+            max={50}
             aria-label="Rows per table"
           />
         </div>
@@ -133,7 +133,7 @@ export default function DDLInput() {
             onClick={handleGenerateScript}
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-md"
             aria-label="Generate SQL script"
-            disabled={!ddl}
+            disabled={!ddl || loading}
           >
             <ArrowRightCircle className="inline-block w-5 h-5 mr-2" />
             Generate SQL Script
@@ -142,63 +142,7 @@ export default function DDLInput() {
       </div>
 
       {/* Code Output Section */}
-      <div className="mt-8 bg-gray-800 border border-gray-700 rounded-xl p-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4">
-          Generated SQL Script
-        </h2>
-
-        <div className="my-4 flex flex-col sm:flex-row sm:justify-between gap-4">
-          <Button
-            onClick={() => navigator.clipboard.writeText(code)}
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-md"
-            aria-label="Copy SQL script to clipboard"
-          >
-            Copy to Clipboard
-          </Button>
-          <Button
-            onClick={() => {
-              const blob = new Blob([code], { type: "text/plain" });
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.href = url;
-              a.download = "generated_script.sql";
-              a.click();
-              URL.revokeObjectURL(url);
-            }}
-            className="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-5 py-2 rounded-md"
-            aria-label="Download SQL script as file"
-          >
-            Download SQL Script
-          </Button>
-        </div>
-
-        <div className="overflow-x-auto rounded-md border border-gray-700">
-          {code ? (
-            <CodeEditor
-              value={code}
-              language="sql"
-              placeholder="SQL script will appear here..."
-              onChange={(evn) => setCode(evn.target.value)}
-              padding={15}
-              rehypePlugins={[
-                [rehypePrism, { ignoreMissing: true, showLineNumbers: true }],
-              ]}
-              style={{
-                backgroundColor: "#121212",
-                color: "#e0e0e0",
-                borderRadius: "0.5rem",
-                fontFamily:
-                  "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-              }}
-              aria-label="Generated SQL script editor"
-            />
-          ) : (
-            <p className="text-gray-500 italic p-4">
-              No SQL script generated yet.
-            </p>
-          )}
-        </div>
-      </div>
+      <Output code={code} setCode={setCode} />
     </div>
   );
 }

@@ -1,0 +1,61 @@
+import CodeEditor from "@uiw/react-textarea-code-editor";
+import rehypePrism from "rehype-prism-plus";
+import { Button } from "./ui/button";
+
+export default function Output ({ code, setCode }:{ code: string; setCode: (value: string) => void; }) {
+  return (
+    <div className="mt-8 bg-gray-800 border border-gray-700 rounded-xl p-6">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4">
+        Generated SQL Script
+      </h2>
+
+      <div
+        className="overflow-y-auto overflow-x-auto rounded-md border border-gray-700"
+        style={{ maxHeight: "40rem" }} // adjust height as needed
+      >
+        <CodeEditor
+          value={code}
+          language="sql"
+          placeholder="SQL script will appear here..."
+          onChange={(evn) => setCode(evn.target.value)}
+          padding={15}
+          rehypePlugins={[
+            [rehypePrism, { ignoreMissing: true, showLineNumbers: true }],
+          ]}
+          style={{
+            backgroundColor: "#121212",
+            color: "#e0e0e0",
+            fontFamily:
+              "ui-monospace, SFMono-Regular, SF Mono, Consolas, Liberation Mono, Menlo, monospace",
+            height: "100%", // allow inner content to fill container
+          }}
+          aria-label="Generated SQL script editor"
+        />
+      </div>
+      <div className="mt-4 flex flex-col sm:flex-row sm:justify-between gap-4">
+        <Button
+          onClick={() => navigator.clipboard.writeText(code)}
+          className="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-md"
+          aria-label="Copy SQL script to clipboard"
+        >
+          Copy to Clipboard
+        </Button>
+        <Button
+          onClick={() => {
+            const blob = new Blob([code], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "generated_script.sql";
+            a.click();
+            URL.revokeObjectURL(url);
+          }}
+          className="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-5 py-2 rounded-md"
+          aria-label="Download SQL script as file"
+        >
+          Download SQL Script
+        </Button>
+      </div>
+    </div>
+  );
+}
