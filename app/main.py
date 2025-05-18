@@ -51,7 +51,7 @@ def read_root(ddl: str = None, rows_per_table: int = 30):
     split_ddl(ddl)
     
     # Load the JSON file
-    with open("split_ddl.json", "r") as file:
+    with open("tmp/split_ddl.json", "r") as file:
         res = json.load(file)
     
     sql_scripts = ""

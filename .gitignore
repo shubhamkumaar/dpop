@@ -54,3 +54,4 @@ alembic/versions/
 docker-compose.override.yml
 *.local.yaml
 
+tmp/

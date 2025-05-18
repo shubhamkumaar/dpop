@@ -53,5 +53,5 @@ Follow this format of the response:-
         # print(chunk.text, end="")
         if chunk.text:
             response += chunk.text
-    with open("split_ddl.json", "w") as f:
+    with open("tmp/split_ddl.json", "w") as f:
         f.write(response)
