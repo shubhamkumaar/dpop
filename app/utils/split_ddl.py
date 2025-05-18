@@ -53,5 +53,6 @@ Follow this format of the response:-
         # print(chunk.text, end="")
         if chunk.text:
             response += chunk.text
+    os.makedirs("tmp", exist_ok=True)
     with open("tmp/split_ddl.json", "w") as f:
         f.write(response)
