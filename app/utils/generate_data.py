@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
-def generate_script(ddl_statement,rows_per_table=30):
+def generate_script(ddl_statement,rows_per_table):
     print("Generating script for DDL statement...")
     client = genai.Client(
         api_key=api_key,

@@ -36,16 +36,9 @@ def getImages(page):
     return images
 
 @app.post("/")
-def read_root(ddl: str = None, rows_per_table: int = 30):
+def read_root(ddl: str = None, rows_per_table: int = 50):
     if ddl is None:
         return {"message": "You have to pass the ddl as a query parameter"}
-    # """CREATE TABLE media_library (
-    #     media_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    #     name VARCHAR(255) NOT NULL,
-    #     file_url TEXT,         -- PDF file URL
-    #     cover TEXT,            -- Image (cover) URL
-    #     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    # );"""
     
     # Split the DDL into individual statements
     print(rows_per_table)
@@ -58,11 +51,12 @@ def read_root(ddl: str = None, rows_per_table: int = 30):
     sql_scripts = ""
     curr_ddl = ""
     count = 0
+    
     # Loop through each DDL statement and generate the SQL script    
     for statement in res["ddl_statement"]:
         curr_ddl += statement + "\n"
         count += rows_per_table   
-        if count >= 30: 
+        if count >= 50: 
            # Generate the SQL script for the current DDL statement
            sql_scripts += generate_script(curr_ddl,rows_per_table)
            

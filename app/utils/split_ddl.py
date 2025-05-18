@@ -33,16 +33,9 @@ Rules to generate
 - If you any dependency in the DDL, it means the table is already created, so don't create it again
 Follow this format of the response:-
 {{
-  \"ddl_statement\": [
-      \"CREATE TABLE order_items (
-        item_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        order_id UUID NOT NULL,
-        product_name VARCHAR(100),
-        quantity INT CHECK (quantity > 0),
-        price DECIMAL(10, 2),
-        FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
-    );\",
-     ]
+  "ddl_statement": [
+    "CREATE TABLE order_items (item_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),order_id UUID NOT NULL,product_name VARCHAR(100),quantity INT CHECK (quantity > 0),price DECIMAL(10, 2),FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE);"
+  ]
 }}"""),
             ],
         ),
