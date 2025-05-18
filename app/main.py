@@ -48,6 +48,7 @@ def read_root(ddl: str = None, rows_per_table: int = 30):
     # );"""
     
     # Split the DDL into individual statements
+    print(rows_per_table)
     split_ddl(ddl)
     
     # Load the JSON file
@@ -62,7 +63,9 @@ def read_root(ddl: str = None, rows_per_table: int = 30):
         curr_ddl += statement + "\n"
         count += rows_per_table   
         if count >= 30: 
+           # Generate the SQL script for the current DDL statement
            sql_scripts += generate_script(curr_ddl,rows_per_table)
+           
            count = 0
            curr_ddl = ""
         

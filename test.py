@@ -6,3 +6,4 @@ with open("ddl.json", "r") as file:
 
 for i, statement in enumerate(res["ddl_statement"]):
     print("Statement", i, statement)
+    

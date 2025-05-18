@@ -34,7 +34,14 @@ Rules to generate
 Follow this format of the response:-
 {{
   \"ddl_statement\": [
-      \"Generate the DDL statement in this format\",
+      \"CREATE TABLE order_items (
+        item_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        order_id UUID NOT NULL,
+        product_name VARCHAR(100),
+        quantity INT CHECK (quantity > 0),
+        price DECIMAL(10, 2),
+        FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
+    );\",
      ]
 }}"""),
             ],
