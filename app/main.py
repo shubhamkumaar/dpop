@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 import json
 import requests
+import asyncio
 from fastapi.middleware.cors import CORSMiddleware
 from .utils.split_ddl import split_ddl
 from .utils.generate_data import generate_script
 from .data.dummy_pdf import pdf
-
 app = FastAPI(root_path="/api")
 
 origins = [
@@ -36,74 +36,60 @@ def getImages(page):
     return images
 
 @app.post("/")
-def read_root(ddl: str = None, rows_per_table: int = 50):
+async def read_root(ddl: str = None, rows_per_table: int = 50):
     if ddl is None:
         return {"message": "You have to pass the ddl as a query parameter"}
-    
-    # Split the DDL into individual statements
+
     print(rows_per_table)
     split_ddl(ddl)
-    
-    # Load the JSON file
+
+    # Read and parse split DDL statements
     with open("tmp/split_ddl.json", "r") as file:
-        res = json.load(file)
-    
-    sql_scripts = ""
-    curr_ddl = ""
+        ddl_statements = json.load(file).get("ddl_statement", [])
+
+    sql_tasks = []
+    curr_ddl = []
     count = 0
-    
-    # Loop through each DDL statement and generate the SQL script    
-    for statement in res["ddl_statement"]:
-        curr_ddl += statement + "\n"
-        count += rows_per_table   
-        if count >= 50: 
-           # Generate the SQL script for the current DDL statement
-           sql_scripts += generate_script(curr_ddl,rows_per_table)
-           
-           count = 0
-           curr_ddl = ""
-        
+
+    for statement in ddl_statements:
+        curr_ddl.append(statement)
+        count += rows_per_table
+
+        if count >= 50:
+            ddl_chunk = "\n".join(curr_ddl)
+            sql_tasks.append(generate_script(ddl_chunk, rows_per_table))
+            curr_ddl = []
+            count = 0
+
     if curr_ddl:
-        sql_scripts = generate_script(curr_ddl,rows_per_table)
+        ddl_chunk = "\n".join(curr_ddl)
+        sql_tasks.append(generate_script(ddl_chunk, rows_per_table))
 
+    # Run all generate_script tasks concurrently
+    sql_script_parts = await asyncio.gather(*sql_tasks)
+    sql_scripts = ''.join(sql_script_parts)
 
-    # Replace the #pdf markers with actual data
-    pdf_index = 0
-    cursor = 0
-    while True:
-        marker = sql_scripts.find("#pdf",cursor)
-        if marker == -1:
-            break
-        end_index = marker + 4
-        sql_scripts = sql_scripts[:marker] + pdf[pdf_index] + sql_scripts[end_index:]
-        pdf_index += 1
-        pdf_index = pdf_index % len(pdf)
-      
-    images = []
-    page = 1
-    if(sql_scripts.find("#img") == -1):
+    # Replace #pdf markers
+    if '#pdf' in sql_scripts:
+        parts = sql_scripts.split('#pdf')
+        sql_scripts = parts[0]
+        for i in range(1, len(parts)):
+            sql_scripts += pdf[i % len(pdf)] + parts[i]
+
+    # Replace #img markers
+    if '#img' in sql_scripts:
+        parts = sql_scripts.split('#img')
+        sql_scripts = parts[0]
+        page = 1
         images = getImages(page)
-                
-    img_index = 0  
-    # Replacing the #img marker with the image URL 
-    while True:
-        marker = sql_scripts.find("#img",cursor)
-        if marker == -1:
-            break
-        end_index = marker + 4
-        
-        # Getting Images
-        if img_index >= len(images):
-            page += 1
-            images = getImages(page)
-            img_index = 0  
-            
-        #Replacing the marker with the image URL   
-        sql_scripts = sql_scripts[:marker] + images[img_index] + sql_scripts[end_index:]
-        img_index += 1
-        
-    # Write the SQL scripts to a file   
-    # with open("sql_scripts.sql", "w") as f:
-    #     f.write(sql_scripts)
+        img_index = 0
+
+        for i in range(1, len(parts)):
+            if img_index >= len(images):
+                page += 1
+                images = getImages(page)
+                img_index = 0
+            sql_scripts += images[img_index] + parts[i]
+            img_index += 1
+
     return {"message": sql_scripts}
-    

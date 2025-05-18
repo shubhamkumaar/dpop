@@ -1,12 +1,6 @@
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
-export default function Loader({
-  open,
-  estimatedTimeInMinutes = 1.5,
-}: {
-  open: boolean;
-  estimatedTimeInMinutes?: number;
-}) {
+export default function Loader({ open }: { open: boolean }) {
   if (!open) return null;
 
   return (
@@ -22,8 +16,7 @@ export default function Loader({
           Generating script, please wait...
         </p>
         <p className="text-sm text-gray-400 text-center">
-          Estimated time: ~{estimatedTimeInMinutes.toFixed(1)} minute
-          {estimatedTimeInMinutes !== 1 ? "s" : ""}
+          Processing... this could take a little over a minute
         </p>
       </div>
     </div>

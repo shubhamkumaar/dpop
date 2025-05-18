@@ -1,13 +1,14 @@
-import base64
+import asyncio
 import os
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
+from functools import partial
 
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
-def generate_script(ddl_statement,rows_per_table):
+def generate(ddl_statement,rows_per_table):
     print("Generating script for DDL statement...")
     client = genai.Client(
         api_key=api_key,
@@ -45,6 +46,17 @@ Response rules:-
         config=generate_content_config,
     ):
         res += chunk.text
-    res = res.replace("```sql", "").replace("```", "")    
     return res
 
+async def generate_script(ddl_statement, rows_per_table):
+    loop = asyncio.get_event_loop()
+    
+    # Use partial to pass arguments to the sync `generate` function
+    func = partial(generate, ddl_statement, rows_per_table)
+    
+    # Await the result from the background thread
+    res = await loop.run_in_executor(None, func)
+
+    # Optional cleanup (only needed if your prompt accidentally triggers SQL code blocks)
+    res = res.replace("```sql", "").replace("```", "")
+    return res
