@@ -1,44 +1,48 @@
 import { useState } from "react";
-import { Code, Database, Download,} from "lucide-react";
+import { Code, Database, Download } from "lucide-react";
 
 const HowItWorksSection = () => {
   const [activeStep, setActiveStep] = useState(0);
-  
+
   const steps = [
     {
       id: 1,
       title: "Provide Your Schema",
       description: "Paste your SQL table schema or define fields manually.",
       icon: <Code size={32} />,
-      details: "Simply paste your existing SQL table definition or use our visual field editor to define your data structure. We support all major SQL data types and constraints."
+      details:
+        "Simply paste your existing SQL table definition or use our visual field editor to define your data structure. We support all major SQL data types and constraints.",
     },
     {
-  id: 2,
-  title: "Get Auto-Generated SQL Insert Code",
-  description: "Our engine creates realistic dummy data as ready-to-use INSERT statements.",
-  icon: <Database size={32} />,
-  details: "Our AI-powered engine analyzes your schema and generates contextually appropriate data for each field. Get realistic names, addresses, dates, and more that match your field constraints."
-}
-,
+      id: 2,
+      title: "Get Auto-Generated SQL Insert Code",
+      description:
+        "Our engine creates realistic dummy data as ready-to-use INSERT statements.",
+      icon: <Database size={32} />,
+      details:
+        "Our AI-powered engine analyzes your schema and generates contextually appropriate data for each field. Get realistic names, addresses, dates, and more that match your field constraints.",
+    },
     {
       id: 3,
       title: "Copy or Download the Script",
-      description: "One click to copy or download the SQL script for immediate use in your database.",
+      description:
+        "One click to copy or download the SQL script for immediate use in your database.",
       icon: <Download size={32} />,
-      details: "Export your generated INSERT statements with a single click. Ready to run in any SQL database that matches your schema."
-    }
+      details:
+        "Export your generated INSERT statements with a single click. Ready to run in any SQL database that matches your schema.",
+    },
   ];
 
   return (
-    <div className="bg-gray-900 text-gray-100 py-16 px-4 w-full">
+    <div id="works" className="bg-gray-900 text-gray-100 py-16 px-4 w-full">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             How It <span className="text-blue-400">Works</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            Generate realistic SQL insert statements in seconds with 
-            powerful data gemini engine
+            Generate realistic SQL insert statements in seconds with powerful
+            data gemini engine
           </p>
         </div>
 

@@ -25,10 +25,19 @@ export default function HeroSection() {
               realistic SQL data - fast and hassle-free.
             </p>
             <div className="flex flex-wrap gap-4">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900">
+              <a
+                href="#generator"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+              >
                 Generate SQL Now
-              </button>
-              <button className="bg-gray-800 hover:bg-gray-700 text-white font-medium px-6 py-3 rounded-lg transition duration-200 border border-gray-700 focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-gray-900">
+              </a>
+              <button
+                onClick={() =>
+                  (window.location.href =
+                    "https://github.com/shubhamkumaar/dpop")
+                }
+                className="bg-gray-800 hover:bg-gray-700 text-white font-medium px-6 py-3 rounded-lg transition duration-200 border border-gray-700 focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+              >
                 View Documentation
               </button>
             </div>
