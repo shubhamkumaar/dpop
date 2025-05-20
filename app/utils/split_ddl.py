@@ -35,7 +35,8 @@ Follow this format of the response:-
 {{
   \"ddl_statement": \"[
     \"CREATE TABLE order_items (item_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),order_id UUID NOT NULL,product_name VARCHAR(100),quantity INT CHECK (quantity > 0),price DECIMAL(10, 2),FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE);"
-    \"CREATE TABLE orders (order_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),customer_id UUID NOT NULL,order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE);"]
+    \"CREATE TABLE orders (order_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),customer_id UUID NOT NULL,order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE);"
+    ]
 }}"""),
             ],
         ),

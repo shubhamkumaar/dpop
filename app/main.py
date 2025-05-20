@@ -6,6 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from .utils.split_ddl import split_ddl
 from .utils.generate_data import generate_script
 from .data.dummy_pdf import pdf
+import os
+from functools import partial
+
 app = FastAPI(root_path="/api")
 
 origins = [
@@ -35,22 +38,25 @@ def getImages(page):
             images.append(d['download_url'])
     return images
 
+def load_ddl_statements():
+    with open("tmp/split_ddl.json", "r") as file:
+        ddl_statements = json.load(file).get("ddl_statement", [])
+    return ddl_statements
 @app.post("/")
 async def read_root(ddl: str = None, rows_per_table: int = 50):
     if ddl is None:
         return {"message": "You have to pass the ddl as a query parameter"}
-
-    print(rows_per_table)
-    split_ddl(ddl)
-
+    loop = asyncio.get_running_loop()
+    
+    func = partial(split_ddl, ddl)    
+    ddl_statements = await loop.run_in_executor(None, func)
     # Read and parse split DDL statements
-    with open("tmp/split_ddl.json", "r") as file:
-        ddl_statements = json.load(file).get("ddl_statement", [])
-
+    ddl_statements = await loop.run_in_executor(None, load_ddl_statements)
+    # return {"message": ddl_statements}
     sql_tasks = []
     curr_ddl = []
     count = 0
-
+    # Split the DDL statements into chunks of 50
     for statement in ddl_statements:
         curr_ddl.append(statement)
         count += rows_per_table
@@ -91,5 +97,5 @@ async def read_root(ddl: str = None, rows_per_table: int = 50):
                 img_index = 0
             sql_scripts += images[img_index] + parts[i]
             img_index += 1
-
+    os.unlink("tmp/split_ddl.json")
     return {"message": sql_scripts}
