@@ -79,7 +79,7 @@ CREATE TABLE products (
   return (
     <>
       <section id="generator">
-        <div className="w-4/5 mx-auto bg-gray-900 text-gray-100 p-6 md:p-8 rounded-xl border border-gray-700 shadow-xl">
+        <div className="mx-2 md:w-4/5 md:mx-auto bg-gray-900 text-gray-100 p-6 md:p-8 rounded-xl border border-gray-700 shadow-xl">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-blue-400 flex items-center">
               <Database className="mr-2" size={24} />

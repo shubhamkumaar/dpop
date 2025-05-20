@@ -13,7 +13,7 @@ export default function Output({
     return null
   }
   return (
-    <div className="mt-8 mx-auto w-4/5 bg-gray-900 border border-gray-700 rounded-xl p-6">
+    <div className="mx-2 mt-8 md:mx-auto md:w-4/5 bg-gray-900 border border-gray-700 rounded-xl p-6">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4">
         Generated SQL Script
       </h2>
