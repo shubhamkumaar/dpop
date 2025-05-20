@@ -1,37 +1,37 @@
-import { useState } from "react";
-import { Code, Database, Download } from "lucide-react";
+import { useState } from 'react'
+import { Code, Database, Download } from 'lucide-react'
 
 const HowItWorksSection = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(0)
 
   const steps = [
     {
       id: 1,
-      title: "Provide Your Schema",
-      description: "Paste your SQL table schema or define fields manually.",
+      title: 'Provide Your Schema',
+      description: 'Paste your SQL table schema or define fields manually.',
       icon: <Code size={32} />,
       details:
-        "Simply paste your existing SQL table definition or use our visual field editor to define your data structure. We support all major SQL data types and constraints.",
+        'Simply paste your existing SQL table definition or use our visual field editor to define your data structure. We support all major SQL data types and constraints.',
     },
     {
       id: 2,
-      title: "Get Auto-Generated SQL Insert Code",
+      title: 'Get Auto-Generated SQL Insert Code',
       description:
-        "Our engine creates realistic dummy data as ready-to-use INSERT statements.",
+        'Our engine creates realistic dummy data as ready-to-use INSERT statements.',
       icon: <Database size={32} />,
       details:
-        "Our AI-powered engine analyzes your schema and generates contextually appropriate data for each field. Get realistic names, addresses, dates, and more that match your field constraints.",
+        'Our AI-powered engine analyzes your schema and generates contextually appropriate data for each field. Get realistic names, addresses, dates, and more that match your field constraints.',
     },
     {
       id: 3,
-      title: "Copy or Download the Script",
+      title: 'Copy or Download the Script',
       description:
-        "One click to copy or download the SQL script for immediate use in your database.",
+        'One click to copy or download the SQL script for immediate use in your database.',
       icon: <Download size={32} />,
       details:
-        "Export your generated INSERT statements with a single click. Ready to run in any SQL database that matches your schema.",
+        'Export your generated INSERT statements with a single click. Ready to run in any SQL database that matches your schema.',
     },
-  ];
+  ]
 
   return (
     <div id="works" className="bg-gray-900 text-gray-100 py-16 px-4 w-full">
@@ -57,8 +57,8 @@ const HowItWorksSection = () => {
               <div
                 className={`flex items-center justify-center h-20 w-20 rounded-full mb-6 transition-all duration-300 ${
                   activeStep === index
-                    ? "bg-blue-600 text-white transform scale-110"
-                    : "bg-gray-800 text-blue-400"
+                    ? 'bg-blue-600 text-white transform scale-110'
+                    : 'bg-gray-800 text-blue-400'
                 }`}
               >
                 {step.icon}
@@ -117,7 +117,7 @@ const HowItWorksSection = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default HowItWorksSection;
+export default HowItWorksSection

@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { Database, Menu, X, Github, ChevronDown } from "lucide-react";
+import { useState } from 'react'
+import { Database, Menu, X, Github, ChevronDown } from 'lucide-react'
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   return (
     <nav className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
@@ -192,7 +192,7 @@ const Navbar = () => {
         </div>
       )}
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

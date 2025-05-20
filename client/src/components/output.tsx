@@ -1,13 +1,18 @@
-import CodeEditor from "@uiw/react-textarea-code-editor";
-import rehypePrism from "rehype-prism-plus";
-import { Button } from "./ui/button";
+import CodeEditor from '@uiw/react-textarea-code-editor'
+import rehypePrism from 'rehype-prism-plus'
+import { Button } from './ui/button'
 
-export default function Output ({ code, setCode }:{ code: string; setCode: (value: string) => void; }) {
-  if(!code) {
-    return null;
+export default function Output({
+  code,
+  setCode,
+}: {
+  code: string
+  setCode: (value: string) => void
+}) {
+  if (!code) {
+    return null
   }
   return (
-    
     <div className="mt-8 mx-auto w-4/5 bg-gray-900 border border-gray-700 rounded-xl p-6">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4">
         Generated SQL Script
@@ -15,7 +20,7 @@ export default function Output ({ code, setCode }:{ code: string; setCode: (valu
 
       <div
         className="overflow-y-auto overflow-x-auto rounded-md border border-gray-700"
-        style={{ maxHeight: "40rem" }} // adjust height as needed
+        style={{ maxHeight: '40rem' }} // adjust height as needed
       >
         <CodeEditor
           value={code}
@@ -27,11 +32,11 @@ export default function Output ({ code, setCode }:{ code: string; setCode: (valu
             [rehypePrism, { ignoreMissing: true, showLineNumbers: true }],
           ]}
           style={{
-            backgroundColor: "#121212",
-            color: "#e0e0e0",
+            backgroundColor: '#121212',
+            color: '#e0e0e0',
             fontFamily:
-              "ui-monospace, SFMono-Regular, SF Mono, Consolas, Liberation Mono, Menlo, monospace",
-            height: "100%",
+              'ui-monospace, SFMono-Regular, SF Mono, Consolas, Liberation Mono, Menlo, monospace',
+            height: '100%',
           }}
           aria-label="Generated SQL script editor"
         />
@@ -46,13 +51,13 @@ export default function Output ({ code, setCode }:{ code: string; setCode: (valu
         </Button>
         <Button
           onClick={() => {
-            const blob = new Blob([code], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "generated_script.sql";
-            a.click();
-            URL.revokeObjectURL(url);
+            const blob = new Blob([code], { type: 'text/plain' })
+            const url = URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = 'generated_script.sql'
+            a.click()
+            URL.revokeObjectURL(url)
           }}
           className="bg-[#432E54] hover:bg-[#4B4376] text-white font-semibold px-5 py-2 rounded-md"
           aria-label="Download SQL script as file"
@@ -61,5 +66,5 @@ export default function Output ({ code, setCode }:{ code: string; setCode: (valu
         </Button>
       </div>
     </div>
-  );
+  )
 }

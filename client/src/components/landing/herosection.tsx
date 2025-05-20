@@ -17,7 +17,7 @@ export default function HeroSection() {
               SQL DUMMY GENERATOR
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6">
-              Generate SQL Test Data{" "}
+              Generate SQL Test Data{' '}
               <span className="text-blue-500">With Just A Few Clicks</span>
             </h1>
             <p className="text-gray-300 text-lg md:text-xl max-w-lg mb-8">
@@ -34,7 +34,7 @@ export default function HeroSection() {
               <button
                 onClick={() =>
                   (window.location.href =
-                    "https://github.com/shubhamkumaar/dpop")
+                    'https://github.com/shubhamkumaar/dpop')
                 }
                 className="bg-gray-800 hover:bg-gray-700 text-white font-medium px-6 py-3 rounded-lg transition duration-200 border border-gray-700 focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-gray-900"
               >
@@ -63,29 +63,29 @@ export default function HeroSection() {
                 {/* Code content */}
                 <div className="p-4 font-mono text-sm">
                   <div className="text-blue-400">
-                    INSERT INTO <span className="text-green-400">users</span>{" "}
+                    INSERT INTO <span className="text-green-400">users</span>{' '}
                     (id, name, email, created_at) VALUES
                   </div>
                   <div className="pl-4 text-gray-300">
-                    (1, <span className="text-yellow-300">'John Smith'</span>,{" "}
-                    <span className="text-yellow-300">'john@example.com'</span>,{" "}
+                    (1, <span className="text-yellow-300">'John Smith'</span>,{' '}
+                    <span className="text-yellow-300">'john@example.com'</span>,{' '}
                     <span className="text-yellow-300">'2025-05-18'</span>),
                   </div>
                   <div className="pl-4 text-gray-300">
-                    (2, <span className="text-yellow-300">'Emma Johnson'</span>,{" "}
-                    <span className="text-yellow-300">'emma@example.com'</span>,{" "}
+                    (2, <span className="text-yellow-300">'Emma Johnson'</span>,{' '}
+                    <span className="text-yellow-300">'emma@example.com'</span>,{' '}
                     <span className="text-yellow-300">'2025-05-17'</span>),
                   </div>
                   <div className="pl-4 text-gray-300">
                     (3, <span className="text-yellow-300">'Michael Brown'</span>
-                    ,{" "}
+                    ,{' '}
                     <span className="text-yellow-300">
                       'michael@example.com'
                     </span>
                     , <span className="text-yellow-300">'2025-05-16'</span>),
                   </div>
                   <div className="pl-4 text-gray-300">
-                    (4, <span className="text-yellow-300">'Sarah Davis'</span>,{" "}
+                    (4, <span className="text-yellow-300">'Sarah Davis'</span>,{' '}
                     <span className="text-yellow-300">'sarah@example.com'</span>
                     , <span className="text-yellow-300">'2025-05-15'</span>),
                   </div>
@@ -166,5 +166,5 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
