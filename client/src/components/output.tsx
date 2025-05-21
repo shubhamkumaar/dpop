@@ -1,7 +1,7 @@
 import CodeEditor from '@uiw/react-textarea-code-editor'
 import rehypePrism from 'rehype-prism-plus'
 import { Button } from './ui/button'
-
+import toast from 'react-hot-toast'
 export default function Output({
   code,
   setCode,
@@ -12,6 +12,7 @@ export default function Output({
   if (!code) {
     return null
   }
+
   return (
     <div className="mx-2 mt-8 md:mx-auto md:w-4/5 bg-gray-900 border border-gray-700 rounded-xl p-6">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4">
@@ -43,7 +44,10 @@ export default function Output({
       </div>
       <div className="mt-4 flex flex-col sm:flex-row sm:justify-end gap-4">
         <Button
-          onClick={() => navigator.clipboard.writeText(code)}
+          onClick={() => {
+            navigator.clipboard.writeText(code)
+            toast.success('SQL script copied to clipboard!')
+          }}
           className="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-md"
           aria-label="Copy SQL script to clipboard"
         >
@@ -51,6 +55,7 @@ export default function Output({
         </Button>
         <Button
           onClick={() => {
+            toast.success('SQL script downloaded!')
             const blob = new Blob([code], { type: 'text/plain' })
             const url = URL.createObjectURL(blob)
             const a = document.createElement('a')

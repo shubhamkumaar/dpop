@@ -39,6 +39,7 @@ const DDLInput = () => {
         params: {
           ddl: ddl,
           rows_per_table: rows_per_table,
+          password: password,
         },
       })
       setCode(response.data.message)
