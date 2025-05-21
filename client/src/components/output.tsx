@@ -1,16 +1,16 @@
-import CodeEditor from '@uiw/react-textarea-code-editor'
-import rehypePrism from 'rehype-prism-plus'
-import { Button } from './ui/button'
-import toast from 'react-hot-toast'
+import CodeEditor from '@uiw/react-textarea-code-editor';
+import rehypePrism from 'rehype-prism-plus';
+import { Button } from './ui/button';
+import toast from 'react-hot-toast';
 export default function Output({
   code,
   setCode,
 }: {
-  code: string
-  setCode: (value: string) => void
+  code: string;
+  setCode: (value: string) => void;
 }) {
   if (!code) {
-    return null
+    return null;
   }
 
   return (
@@ -27,7 +27,7 @@ export default function Output({
           value={code}
           language="sql"
           placeholder="SQL script will appear here..."
-          onChange={(evn) => setCode(evn.target.value)}
+          onChange={evn => setCode(evn.target.value)}
           padding={15}
           rehypePlugins={[
             [rehypePrism, { ignoreMissing: true, showLineNumbers: true }],
@@ -45,8 +45,8 @@ export default function Output({
       <div className="mt-4 flex flex-col sm:flex-row sm:justify-end gap-4">
         <Button
           onClick={() => {
-            navigator.clipboard.writeText(code)
-            toast.success('SQL script copied to clipboard!')
+            navigator.clipboard.writeText(code);
+            toast.success('SQL script copied to clipboard!');
           }}
           className="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-md"
           aria-label="Copy SQL script to clipboard"
@@ -55,14 +55,14 @@ export default function Output({
         </Button>
         <Button
           onClick={() => {
-            toast.success('SQL script downloaded!')
-            const blob = new Blob([code], { type: 'text/plain' })
-            const url = URL.createObjectURL(blob)
-            const a = document.createElement('a')
-            a.href = url
-            a.download = 'generated_script.sql'
-            a.click()
-            URL.revokeObjectURL(url)
+            toast.success('SQL script downloaded!');
+            const blob = new Blob([code], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'generated_script.sql';
+            a.click();
+            URL.revokeObjectURL(url);
           }}
           className="bg-[#432E54] hover:bg-[#4B4376] text-white font-semibold px-5 py-2 rounded-md"
           aria-label="Download SQL script as file"
@@ -71,5 +71,5 @@ export default function Output({
         </Button>
       </div>
     </div>
-  )
+  );
 }

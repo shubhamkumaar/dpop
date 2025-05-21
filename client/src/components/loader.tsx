@@ -1,7 +1,7 @@
-import { DotLottieReact } from '@lottiefiles/dotlottie-react'
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 export default function Loader({ open }: { open: boolean }) {
-  if (!open) return null
+  if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center min-h-screen backdrop-blur-sm bg-black/40">
@@ -20,5 +20,5 @@ export default function Loader({ open }: { open: boolean }) {
         </p>
       </div>
     </div>
-  )
+  );
 }

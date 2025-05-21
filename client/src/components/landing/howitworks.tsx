@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import { Code, Database, Download } from 'lucide-react'
+import { useState } from 'react';
+import { Code, Database, Download } from 'lucide-react';
 
 const HowItWorksSection = () => {
-  const [activeStep, setActiveStep] = useState(0)
+  const [activeStep, setActiveStep] = useState(0);
 
   const steps = [
     {
@@ -31,7 +31,7 @@ const HowItWorksSection = () => {
       details:
         'Export your generated INSERT statements with a single click. Ready to run in any SQL database that matches your schema.',
     },
-  ]
+  ];
 
   return (
     <div id="works" className="bg-gray-900 text-gray-100 py-16 px-4 w-full">
@@ -84,7 +84,7 @@ const HowItWorksSection = () => {
 
         {/* Steps Mobile */}
         <div className="md:hidden space-y-8">
-          {steps.map((step) => (
+          {steps.map(step => (
             <div key={step.id} className="bg-gray-800 rounded-lg p-6">
               <div className="flex items-start mb-4">
                 <div className="bg-blue-600 text-white h-12 w-12 rounded-full flex items-center justify-center mr-4">
@@ -117,7 +117,7 @@ const HowItWorksSection = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HowItWorksSection
+export default HowItWorksSection;

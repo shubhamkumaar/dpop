@@ -1,5 +1,5 @@
 // import { Button } from "@/components/ui/button";
-import { useState } from 'react'
+import { useState } from 'react';
 import {
   ArrowRightCircle,
   AlertCircle,
@@ -9,51 +9,51 @@ import {
   Clipboard,
   Eye,
   EyeOff,
-} from 'lucide-react'
-import axios from 'axios'
-import Output from './output'
-import Loader from './loader'
+} from 'lucide-react';
+import axios from 'axios';
+import Output from './output';
+import Loader from './loader';
 
-const api_url = import.meta.env.VITE_API_URL
+const api_url = import.meta.env.VITE_API_URL;
 
 const DDLInput = () => {
-  const [ddl, setDDL] = useState('')
-  const [rows_per_table, setRowsPerTable] = useState(30)
-  const [code, setCode] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [copied, setCopied] = useState(false)
+  const [ddl, setDDL] = useState('');
+  const [rows_per_table, setRowsPerTable] = useState(30);
+  const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [copied, setCopied] = useState(false);
   const handleGenerateScript = async () => {
     if (!ddl) {
-      alert('Please enter DDL statements.')
-      return
+      alert('Please enter DDL statements.');
+      return;
     }
     if (rows_per_table < 1 || rows_per_table > 50) {
-      alert('Rows per table must be between 1 and 50.')
-      return
+      alert('Rows per table must be between 1 and 50.');
+      return;
     }
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await axios.post(api_url, null, {
         params: {
           ddl: ddl,
           rows_per_table: rows_per_table,
           password: password,
         },
-      })
-      setCode(response.data.message)
-      console.log(response.data)
+      });
+      setCode(response.data.message);
+      console.log(response.data);
     } catch (error) {
-      console.error('Error generating script:', error)
+      console.error('Error generating script:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   const copyDDLExample = () => {
     const example = `CREATE TABLE users (
@@ -71,12 +71,12 @@ CREATE TABLE products (
   description TEXT,
   category VARCHAR(50),
   stock INT DEFAULT 0
-);`
+);`;
 
-    navigator.clipboard.writeText(example)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
+    navigator.clipboard.writeText(example);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
   return (
     <>
       <section id="generator">
@@ -107,7 +107,7 @@ CREATE TABLE products (
                   min="1"
                   max="50"
                   value={rows_per_table}
-                  onChange={(e) => setRowsPerTable(Number(e.target.value))}
+                  onChange={e => setRowsPerTable(Number(e.target.value))}
                   className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500 mb-2"
                 />
                 <div className="flex justify-between text-xs text-gray-400 px-1">
@@ -124,9 +124,9 @@ CREATE TABLE products (
                     id="rows-input"
                     className="bg-gray-700 border border-gray-600 rounded-lg p-3 w-24 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={rows_per_table}
-                    onChange={(e) => {
-                      const value = Number(e.target.value)
-                      if (value >= 1 && value <= 50) setRowsPerTable(value)
+                    onChange={e => {
+                      const value = Number(e.target.value);
+                      if (value >= 1 && value <= 50) setRowsPerTable(value);
                     }}
                     min={1}
                     max={50}
@@ -165,7 +165,7 @@ CREATE TABLE products (
                   className="bg-gray-700 border border-gray-600 rounded-lg p-3 w-full text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
                   placeholder="Enter password to be hashed..."
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                 />
                 <button
                   type="button"
@@ -207,7 +207,7 @@ CREATE TABLE products (
                 <textarea
                   id="ddl-input"
                   className="bg-gray-700 border border-gray-600 rounded-lg p-4 w-full text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm h-48 resize-y pt-10"
-                  onChange={(e) => setDDL(e.target.value)}
+                  onChange={e => setDDL(e.target.value)}
                   placeholder="CREATE TABLE users (
   id INT PRIMARY KEY,
   username VARCHAR(50) NOT NULL,
@@ -249,6 +249,6 @@ CREATE TABLE products (
       </section>
       <Loader open={loading} />
     </>
-  )
-}
-export default DDLInput
+  );
+};
+export default DDLInput;

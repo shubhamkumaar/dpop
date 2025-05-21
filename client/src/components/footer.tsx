@@ -1,7 +1,7 @@
-import { Github, Linkedin, Mail, ExternalLink, Instagram } from 'lucide-react'
+import { Github, Linkedin, Mail, ExternalLink, Instagram } from 'lucide-react';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="mt-4 bg-gray-900 text-gray-400 border-t border-gray-800">
@@ -130,7 +130,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
