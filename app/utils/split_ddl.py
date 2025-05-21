@@ -7,6 +7,13 @@ load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
 def split_ddl(ddl_statement):
+    """
+    Splits the DDL statement into an array format and verifies its correctness using Google Gemini API.
+    Args:
+        ddl_statement (str): The DDL statement to split and verify.
+    Returns:
+        str: The JSON array containing the split DDL statements.
+    """
     client = genai.Client(
         api_key=api_key,
     )
@@ -54,6 +61,8 @@ Follow this format of the response:-
         # print(chunk.text, end="")
         if chunk.text:
             response += chunk.text
+    
+    # Save the response to a json file 
     os.makedirs("tmp", exist_ok=True)
     with open("tmp/split_ddl.json", "w") as f:
         f.write(response)

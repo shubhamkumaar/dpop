@@ -9,7 +9,14 @@ load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
 def generate(ddl_statement,rows_per_table):
-    print("Generating script for DDL statement...")
+    """
+    Generate dummy data for the given DDL statement using Google Gemini API.
+    Args:
+        ddl_statement (str): The DDL statement to generate data for.
+        rows_per_table (int): The minimum number of rows to generate for each table.
+    Returns:
+        str: The generated SQL script with dummy data.
+    """
     client = genai.Client(
         api_key=api_key,
     )
@@ -49,6 +56,12 @@ Response rules:-
     return res
 
 async def generate_script(ddl_statement, rows_per_table):
+    """
+    Asynchronously generates a SQL script based on a given DDL statement and number of rows per table.
+    
+    This function runs the synchronous `generate` function in a background thread 
+    using `asyncio` to avoid blocking the event loop.
+    """
     loop = asyncio.get_event_loop()
     
     # Use partial to pass arguments to the sync `generate` function

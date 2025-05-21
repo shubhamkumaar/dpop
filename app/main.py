@@ -8,6 +8,7 @@ from .utils.generate_data import generate_script
 from .data.dummy_pdf import pdf
 import os
 from functools import partial
+import bcrypt
 
 app = FastAPI(root_path="/api")
 
@@ -28,6 +29,9 @@ app.add_middleware(
 )
 
 def getImages(page):
+    """
+    Fetches images from the Lorem Picsum API.
+    """
     images = []
     url = f"https://picsum.photos/v2/list?page={page}&limit=100"
     response = requests.get(url)
@@ -39,11 +43,39 @@ def getImages(page):
     return images
 
 def load_ddl_statements():
+    """
+    Loads the DDL statements from the JSON file.
+    """
     with open("tmp/split_ddl.json", "r") as file:
         ddl_statements = json.load(file).get("ddl_statement", [])
     return ddl_statements
+
+def hash_password(sql,password):
+    """
+    Hashes the password in the SQL statement using bcrypt.
+    """
+    if '#password' in sql:
+        # Split the SQL statement by the #password marker
+        parts = sql.split('#password')
+        # Hash the password part
+        sql = parts[0]
+        for i in range(1, len(parts)):
+            hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            hashed = hashed.decode('utf-8')
+            sql += hashed+parts[i]
+    return sql
+    
 @app.post("/")
-async def read_root(ddl: str = None, rows_per_table: int = 50):
+async def read_root(ddl: str = None, rows_per_table: int = 50, password: str = None):
+    """
+    Main endpoint to process the DDL and generate SQL scripts.
+    
+    Parameters: ddl (str): DDL statement to be processed.
+                rows_per_table (int): Number of rows per table to generate.
+                password (str): Password to be hashed in the SQL statement.
+                
+    Returns: JSON response with the generated SQL scripts.
+    """
     if ddl is None:
         return {"message": "You have to pass the ddl as a query parameter"}
     loop = asyncio.get_running_loop()
@@ -97,5 +129,9 @@ async def read_root(ddl: str = None, rows_per_table: int = 50):
                 img_index = 0
             sql_scripts += images[img_index] + parts[i]
             img_index += 1
+            
+    # Replace #password markers
+    sql_scripts = hash_password(sql_scripts, password) if password else sql_scripts
+    
     os.unlink("tmp/split_ddl.json")
     return {"message": sql_scripts}
